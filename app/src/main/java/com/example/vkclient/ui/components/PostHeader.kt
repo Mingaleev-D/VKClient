@@ -22,6 +22,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.vkclient.R
+import com.example.vkclient.domain.model.FeedPost
 
 /**
  * @author : Mingaleev D
@@ -29,7 +30,9 @@ import com.example.vkclient.R
  */
 
 @Composable
-fun PostHeader() {
+fun PostHeader(
+    feedPost: FeedPost
+) {
    Row(
        modifier = Modifier
            .fillMaxWidth(),
@@ -39,7 +42,7 @@ fun PostHeader() {
           modifier = Modifier
               .size(50.dp)
               .clip(CircleShape),
-          painter = painterResource(id = R.drawable.post_comunity_thumbnail),
+          painter = painterResource(id = feedPost.avatarResId),
           contentDescription = null
       )
       Spacer(modifier = Modifier.width(8.dp))
@@ -47,12 +50,12 @@ fun PostHeader() {
           modifier = Modifier.weight(1f)
       ) {
          Text(
-             text = "/dev/null",
+             text = feedPost.communityName,
              color = MaterialTheme.colors.onBackground
          )
          Spacer(modifier = Modifier.height(4.dp))
          Text(
-             text = "14:00",
+             text = feedPost.publicDate,
              color = MaterialTheme.colors.onSecondary
          )
       }
