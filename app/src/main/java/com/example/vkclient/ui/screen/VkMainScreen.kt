@@ -1,8 +1,6 @@
 package com.example.vkclient.ui.screen
 
 import android.annotation.SuppressLint
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.BottomNavigation
 import androidx.compose.material.BottomNavigationItem
@@ -16,6 +14,7 @@ import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -25,6 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.vkclient.R
 import com.example.vkclient.domain.model.FeedPost
+import com.example.vkclient.ui.MainViewModel
 import com.example.vkclient.ui.components.PostCard
 
 /**
@@ -32,13 +32,12 @@ import com.example.vkclient.ui.components.PostCard
  * @data : 10.07.2023
  */
 
-@RequiresApi(Build.VERSION_CODES.N)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter", "UnrememberedMutableState")
 @Composable
-fun VkMainScreen() {
-   val feedPost = remember {
-      mutableStateOf(FeedPost())
-   }
+fun VkMainScreen(
+    viewModel: MainViewModel
+) {
+   val feedPost = viewModel.feedPost.observeAsState(FeedPost())
 
    Scaffold(
        bottomBar = {
@@ -73,18 +72,17 @@ fun VkMainScreen() {
       PostCard(
           modifier = Modifier.padding(8.dp),
           feedPost = feedPost.value,
-          onItemClickedStatistics = { newItem ->
-             val oldStatistics = feedPost.value.statistics
-             val newStatistics = oldStatistics.toMutableList().apply {
-                replaceAll { oldItem ->
-                   if (oldItem.type == newItem.type) {
-                      oldItem.copy(count = oldItem.count + 1)
-                   } else {
-                      oldItem
-                   }
-                }
-             }
-             feedPost.value = feedPost.value.copy(statistics = newStatistics)
+          onCommentsClick = {
+             viewModel.updateCount(it)
+          },
+          onLikesClick = {
+             viewModel.updateCount(it)
+          },
+          onSharesClick = {
+             viewModel.updateCount(it)
+          },
+          onViewsClick = {
+             viewModel.updateCount(it)
           }
       )
    }
