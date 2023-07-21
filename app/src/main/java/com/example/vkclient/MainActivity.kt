@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.vkclient.ui.components.PostCard
+import com.example.vkclient.ui.screen.VkMainScreen
 import com.example.vkclient.ui.theme.VKClientTheme
 
 class MainActivity : ComponentActivity() {
@@ -14,14 +14,8 @@ class MainActivity : ComponentActivity() {
       super.onCreate(savedInstanceState)
       setContent {
          VKClientTheme {
-            // A surface container using the 'background' color from the theme
-//            Surface(
-//                modifier = Modifier.fillMaxSize(),
-//                color = MaterialTheme.colors.background
-//            ) {
-//
-//            }
-            PostCard()
+
+            VkMainScreen()
          }
       }
    }
